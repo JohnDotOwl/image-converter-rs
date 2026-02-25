@@ -3,8 +3,11 @@ name = "image-converter-rs"
 version = "0.1.0"
 edition = "2024"
 description = "Focused Rust CLI + library for image format conversion"
-license = "Apache-2.0"
+license = "MIT"
+readme = "README.md"
 repository = "https://github.com/JohnDotOwl/image-converter-rs"
+keywords = ["image", "converter", "cli", "format", "batch"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 anyhow = "1.0.100"
