@@ -1,0 +1,13 @@
+[package]
+name = "image-converter-rs"
+version = "0.1.0"
+edition = "2024"
+description = "Focused Rust CLI + library for image format conversion"
+license = "Apache-2.0"
+repository = "https://github.com/JohnDotOwl/image-converter-rs"
+
+[dependencies]
+anyhow = "1.0.100"
+clap = { version = "4.5.53", features = ["derive"] }
+image = { version = "0.25.9", default-features = false, features = ["bmp", "gif", "jpeg", "png", "tiff", "webp"] }
+walkdir = "2.5.0"
