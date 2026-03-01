@@ -117,6 +117,7 @@ struct ResizeInput {
 enum ResizeModeArg {
     Fit,
     Exact,
+    Fill,
 }
 
 impl From<ResizeModeArg> for ResizeMode {
@@ -124,6 +125,7 @@ impl From<ResizeModeArg> for ResizeMode {
         match value {
             ResizeModeArg::Fit => ResizeMode::Fit,
             ResizeModeArg::Exact => ResizeMode::Exact,
+            ResizeModeArg::Fill => ResizeMode::Fill,
         }
     }
 }

@@ -47,6 +47,7 @@ impl OutputFormat {
 pub enum ResizeMode {
     Fit,
     Exact,
+    Fill,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -73,6 +74,7 @@ impl ResizeOptions {
         match self.mode {
             ResizeMode::Fit => format!("{}x{}", self.width, self.height),
             ResizeMode::Exact => format!("{}x{}!", self.width, self.height),
+            ResizeMode::Fill => format!("{}x{}^", self.width, self.height),
         }
     }
 }
@@ -227,6 +229,7 @@ fn resize_image(image: DynamicImage, resize: ResizeOptions) -> DynamicImage {
     match resize.mode {
         ResizeMode::Fit => image.resize(resize.width, resize.height, FilterType::Lanczos3),
         ResizeMode::Exact => image.resize_exact(resize.width, resize.height, FilterType::Lanczos3),
+        ResizeMode::Fill => image.resize_to_fill(resize.width, resize.height, FilterType::Lanczos3),
     }
 }
 
