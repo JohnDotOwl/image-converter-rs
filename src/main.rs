@@ -29,6 +29,8 @@ enum Commands {
         resize_mode: ResizeModeArg,
         #[arg(long, default_value_t = false)]
         overwrite: bool,
+        #[arg(long, default_value_t = false)]
+        preserve_filename: bool,
     },
     Batch {
         input_dir: PathBuf,
@@ -66,8 +68,17 @@ fn run() -> Result<()> {
             resize,
             resize_mode,
             overwrite,
+            preserve_filename,
         } => {
             let options = build_convert_options(overwrite, quality, resize, resize_mode)?;
+            let output = if preserve_filename {
+                let stem = input.file_stem()
+                    .and_then(|s| s.to_str())
+                    .unwrap_or("output");
+                output.with_file_name(stem)
+            } else {
+                output
+            };
             convert_image_file(&input, &output, options).with_context(|| {
                 format!(
                     "failed conversion from {} to {}",
