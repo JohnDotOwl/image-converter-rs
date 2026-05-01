@@ -12,6 +12,9 @@ use std::path::PathBuf;
     about = "Focused Rust image conversion CLI"
 )]
 struct Cli {
+    /// List supported formats and exit
+    #[arg(long)]
+    list_formats: bool,
     #[command(subcommand)]
     command: Commands,
 }
@@ -59,6 +62,11 @@ fn main() {
 
 fn run() -> Result<()> {
     let cli = Cli::parse();
+
+    if cli.list_formats {
+        println!("Supported formats: jpg, jpeg, png, webp, gif, bmp, tiff");
+        return Ok(());
+    }
 
     match cli.command {
         Commands::Convert {
