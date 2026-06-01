@@ -4,6 +4,7 @@ use image_converter_rs::{
     ConvertOptions, ResizeMode, ResizeOptions, convert_directory, convert_image_file,
 };
 use std::path::PathBuf;
+use std::fs;
 
 #[derive(Parser)]
 #[command(
@@ -21,6 +22,9 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
+    Info {
+        input: PathBuf,
+    },
     Convert {
         input: PathBuf,
         output: PathBuf,
@@ -69,6 +73,23 @@ fn run() -> Result<()> {
     }
 
     match cli.command {
+        Commands::Info { input } => {
+            let img = image::open(&input)
+                .with_context(|| format!("failed to open {}", input.display()))?;
+            let metadata = img.metadata();
+            let size = fs::metadata(&input)
+                .map(|m| m.len())
+                .unwrap_or(0);
+            let format = input.extension()
+                .and_then(|e| e.to_str())
+                .unwrap_or("unknown");
+            println!("File: {}", input.display());
+            println!("Format: {}", format);
+            println!("Dimensions: {}x{}", img.width(), img.height());
+            println!("Size: {:.2} KB", size as f64 / 1024.0);
+            println!("Color type: {:?}", metadata.color_type);
+            println!("Bit depth: {}", metadata.bit_depth);
+        }
         Commands::Convert {
             input,
             output,
